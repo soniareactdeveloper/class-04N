@@ -2,28 +2,37 @@
 
 const express = require("express");
 const user = require("./user");
-
-
-
-
+const router = express.Router(
+  {
+    caseSensitive : true,
+  }
+);
 
 const app = express();
-
 app.use(express.json());
+// express.static method to connect static files
+app.use(express.static(__dirname + "/public"));
+app.use(router)
 
-app.get("/", (req, res) => {
+
+
+router.get("/", (req, res) => {
   res.send("Hello World");
 })
 
-app.get("/users", (req, res) => {
+router.get("/users", (req, res) => {
   res.send(user);
 })
 
-
-app.post ("/login", (req, res) => {
-   const { name, age } = req.body;
-   console.log(age);
+router.get("/users/:id", (req, res) => {
+  res.send(user[req.params.id]);
 })
+
+// express.post method
+router.post("/login", (req, res) => {
+   const {name, age } = req.body;
+});
+
 
 app.listen(9000, () => {
   console.log("Server is running on port 9000");
